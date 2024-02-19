@@ -6,3 +6,8 @@
 *Stack:* ASP.NET Core (.Net 8), Serilog, NUnit.
 
 *Hosting:* web API is hosted on Azure with domen: sheet-incision-web-api.azurewebsites.net
+
+*Endpoints:*
+| Method | URL | Description |
+| ------- | --------------------------------------------------------- | ----------- |
+| Get | /api/SheetIncision/GetNumberOfPieces?data=*object with matrix and allowDiagonals fields*  | Retrieve amount of pieces sheet was cut |
