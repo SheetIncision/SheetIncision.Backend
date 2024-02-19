@@ -11,3 +11,5 @@
 | Method | URL | Description |
 | ------- | --------------------------------------------------------- | ----------- |
 | Get | /api/SheetIncision/GetNumberOfPieces?data=*object with matrix and allowDiagonals fields*  | Retrieve amount of pieces sheet was cut |
+
+*Frontend: * https://github.com/SheetIncision/SheetIncision.Frontend.git
