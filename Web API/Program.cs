@@ -8,15 +8,14 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    //Uncomment to enable writing to the Azure Diagnostics Log Stream
-    //.WriteTo.File(
-    //    System.IO.Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles", "Application", "diagnostics.txt"),
-    //    rollingInterval: RollingInterval.Day,
-    //    fileSizeLimitBytes: 10 * 1024 * 1024,
-    //    retainedFileCountLimit: 2,
-    //    rollOnFileSizeLimit: true,
-    //    shared: true,
-    //    flushToDiskInterval: TimeSpan.FromSeconds(1))
+    .WriteTo.File(
+        System.IO.Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles", "Application", "diagnostics.txt"),
+        rollingInterval: RollingInterval.Day,
+        fileSizeLimitBytes: 10 * 1024 * 1024,
+        retainedFileCountLimit: 2,
+        rollOnFileSizeLimit: true,
+        shared: true,
+        flushToDiskInterval: TimeSpan.FromSeconds(1))
     .CreateLogger();
 
 try
@@ -29,10 +28,21 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy", policyBuilder =>
+        {
+            policyBuilder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+    });
+
     var app = builder.Build();
 
     app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
     app.UseSerilogRequestLogging();
+    app.UseCors("CorsPolicy");
 
     if (app.Environment.IsDevelopment())
     {
