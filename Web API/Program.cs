@@ -30,11 +30,11 @@ try
 
     builder.Services.AddCors(options =>
     {
-        options.AddPolicy("CorsPolicy", policyBuilder =>
+        options.AddPolicy("CorsPolicy", policy =>
         {
-            policyBuilder.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
+            policy.WithOrigins("https://sheetincision.github.io/SheetIncision.Frontend/")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
     });
 
