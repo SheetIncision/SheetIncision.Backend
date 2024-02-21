@@ -1,5 +1,7 @@
 using Serilog;
 using Serilog.Events;
+using Services.Services;
+using Services.Services.Abstraction;
 using Web_API.Middleware;
 
 Log.Logger = new LoggerConfiguration()
@@ -8,14 +10,14 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.File(
-        System.IO.Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles", "Application", "diagnostics.txt"),
-        rollingInterval: RollingInterval.Day,
-        fileSizeLimitBytes: 10 * 1024 * 1024,
-        retainedFileCountLimit: 2,
-        rollOnFileSizeLimit: true,
-        shared: true,
-        flushToDiskInterval: TimeSpan.FromSeconds(1))
+    //.WriteTo.File(
+    //    System.IO.Path.Combine(Environment.GetEnvironmentVariable("HOME"), "LogFiles", "Application", "diagnostics.txt"),
+    //    rollingInterval: RollingInterval.Day,
+    //    fileSizeLimitBytes: 10 * 1024 * 1024,
+    //    retainedFileCountLimit: 2,
+    //    rollOnFileSizeLimit: true,
+    //    shared: true,
+    //    flushToDiskInterval: TimeSpan.FromSeconds(1))
     .CreateLogger();
 
 try
@@ -37,6 +39,8 @@ try
                 .AllowAnyHeader();
         });
     });
+
+    builder.Services.AddScoped<ISheetIncisionService, SheetIncisionService>();
 
     var app = builder.Build();
 

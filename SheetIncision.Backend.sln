@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web API", "Web API\Web API.csproj", "{A0CD7421-DB16-4CC7-8736-2D56CF4D99B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web API", "Web API\Web API.csproj", "{A0CD7421-DB16-4CC7-8736-2D56CF4D99B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web API.Tests", "Web API.Tests\Web API.Tests.csproj", "{3A11BCFA-4DD3-4AD8-A744-314D21EBE9D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web API.Tests", "Web API.Tests\Web API.Tests.csproj", "{3A11BCFA-4DD3-4AD8-A744-314D21EBE9D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{FA527082-04C5-49CB-A8A4-C961B557E607}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{3A11BCFA-4DD3-4AD8-A744-314D21EBE9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A11BCFA-4DD3-4AD8-A744-314D21EBE9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A11BCFA-4DD3-4AD8-A744-314D21EBE9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA527082-04C5-49CB-A8A4-C961B557E607}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA527082-04C5-49CB-A8A4-C961B557E607}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA527082-04C5-49CB-A8A4-C961B557E607}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA527082-04C5-49CB-A8A4-C961B557E607}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

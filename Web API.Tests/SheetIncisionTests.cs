@@ -1,10 +1,13 @@
-﻿using Web_API.Models;
+﻿using Services.Services;
+using Web_API.Models;
 
 namespace Web_API.Tests;
 
 [TestFixture]
-public class MatrixOfIncisionTests
+public class SheetIncisionTests
 {
+    
+
     public static IEnumerable<TestCaseData> DivideCases
     {
         get
@@ -19,9 +22,9 @@ public class MatrixOfIncisionTests
     [TestCaseSource(nameof(DivideCases))]
     public async Task GetNumberOfZones_ShouldReturnCorrectResult_WhenGivenMatrixAndDiagonalsPermission(int amountOfPieces, RequestBody data)
     {
-        var matrixIncision = new MatrixOfIncision(data.Matrix, data.AllowDiagonals);
+        var service = new SheetIncisionService();
 
-        var result = await matrixIncision.GetNumberOfZones();
+        var result = await service.GetNumberOfZones(data.Matrix, data.AllowDiagonals);
 
         Assert.That(result.Equals(amountOfPieces));
     }

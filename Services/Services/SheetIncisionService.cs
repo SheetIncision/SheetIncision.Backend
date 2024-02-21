@@ -1,40 +1,43 @@
-﻿namespace Web_API.Models;
+﻿using Services.Services.Abstraction;
 
-public class MatrixOfIncision
+namespace Services.Services;
+
+public class SheetIncisionService: ISheetIncisionService
 {
-    private readonly IEnumerable<IEnumerable<int>> _matrix;
-    private readonly int _rows;
-    private readonly int _cols;
-    private readonly bool[,] _visited;
-    private readonly bool _allowDiagonals;
-    private readonly List<List<Tuple<int, int>>> _zones = new List<List<Tuple<int, int>>>();
-    public MatrixOfIncision(IEnumerable<IEnumerable<int>> inputMatrix, bool allowDiagonals)
-    {
-        _matrix = inputMatrix;
-        _allowDiagonals = allowDiagonals;
-        _rows = _matrix.Count();
-        _cols = _matrix.First().Count();
-        _visited = new bool[_rows, _cols];
-    }
+    public IEnumerable<IEnumerable<int>> Matrix { get; set; } = null!;
+    public List<List<Tuple<int, int>>> Zones { get; set; } = null!;
+    public bool[,] Visited { get; set; } = null!;
+    public bool AllowDiagonals { get; set; }
 
-    public async Task<int> GetNumberOfZones()
+    public async Task<int> GetNumberOfZones(IEnumerable<IEnumerable<int>> matrix, bool allowDiagonals)
     {
+        var rows = matrix.Count();
+        var cols = matrix.First().Count();
+
+        Matrix = matrix;
+        Zones = new List<List<Tuple<int, int>>>();
+        Visited = new bool[rows, cols];
+        AllowDiagonals = allowDiagonals;
+
         await FindZones();
 
-        return _zones.Count;
+        return Zones.Count;
     }
 
     private async Task FindZones()
     {
         List<Tuple<int, int>> unVisited = new List<Tuple<int, int>>();
 
-        for (int i = 0; i < _rows; i++)
+        var rows = Matrix.Count();
+        var cols = Matrix.First().Count();
+
+        for (int i = 0; i < rows; i++)
         {
-            for (int j = 0; j < _cols; j++)
+            for (int j = 0; j < cols; j++)
             {
-                if (_matrix.ElementAt(i).ElementAt(j) == 1)
+                if (Matrix.ElementAt(i).ElementAt(j) == 1)
                 {
-                    _visited[i, j] = true;
+                    Visited[i, j] = true;
                 }
                 else
                 {
@@ -45,7 +48,7 @@ public class MatrixOfIncision
 
         foreach (var vertex in unVisited)
         {
-            if (!_visited[vertex.Item1, vertex.Item2])
+            if (!Visited[vertex.Item1, vertex.Item2])
             {
                 var zone = new List<Tuple<int, int>>();
 
@@ -54,14 +57,14 @@ public class MatrixOfIncision
                     vertex.Item2,
                     zone);
 
-                _zones.Add(zone);
+                Zones.Add(zone);
             }
         }
     }
 
     private async Task Traversal(int row, int col, List<Tuple<int, int>> zone)
     {
-        _visited[row, col] = true;
+        Visited[row, col] = true;
 
         var directions = GetDirections();
 
@@ -83,13 +86,13 @@ public class MatrixOfIncision
     private bool IsValid(int row, int col)
     {
         return row >= 0
-               && row < _rows
+               && row < Matrix.Count()
                && col >= 0
-               && col < _cols
-               && !_visited[row, col];
+               && col < Matrix.First().Count()
+               && !Visited[row, col]; ;
     }
 
-    private int[,] GetDirections() => _allowDiagonals switch
+    private int[,] GetDirections() => AllowDiagonals switch
     {
         true => new int[,]
         {

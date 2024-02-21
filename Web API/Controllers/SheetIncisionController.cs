@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Services.Services.Abstraction;
 using Web_API.Models;
 
 namespace Web_API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SheetIncisionController : Controller
+public class SheetIncisionController(ISheetIncisionService sheetIncisionService) : Controller
 {
+    private ISheetIncisionService _sheetIncisionService = sheetIncisionService;
+
     [HttpGet("GetNumberOfPieces")]
     public async Task<IActionResult> GetNumberOfPieces([FromQuery] string? data)
     {
@@ -15,9 +18,9 @@ public class SheetIncisionController : Controller
         {
             var requestBody = JsonConvert.DeserializeObject<RequestBody>(data);
 
-            var matrixOfIncision = new MatrixOfIncision(requestBody.Matrix, requestBody.AllowDiagonals);
+            var result = await _sheetIncisionService.GetNumberOfZones(requestBody.Matrix, requestBody.AllowDiagonals);
 
-            return Ok(await matrixOfIncision.GetNumberOfZones());
+            return Ok(result);
         }
         else
         {
